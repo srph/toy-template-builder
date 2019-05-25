@@ -6,6 +6,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import { useReducer, useEffect } from 'react'
+import { useDrag, useDrop, DndProvider } from '~/lib/dnd'
 
 type WidgetType = 'text' | 'number'
 
@@ -25,6 +26,12 @@ interface State {
     id: number
     position: number
     columns: WidgetColumn[]
+  }[]
+  widgets: {
+    id: number
+    label: string
+    icon: string
+    type: WidgetType
   }[]
   selected: WidgetColumn | null
 }
@@ -52,20 +59,43 @@ function App() {
         }
       }]
     }],
+    widgets: [{
+      id: ++id,
+      label: 'Input',
+      icon: 'text-width',
+      type: 'text'
+    }],
     selected: null
+  })
+
+  const [dropProps, dropRef] = useDrop({
+    accept: 'widget',
+    drop(item, monitor) {
+      //
+    },
+    hover(item, monitor) {
+      console.log(item, monitor)
+    }
+  })
+
+  const [widgetDragProps, widetDragRef] = useDrag({
+    item: {
+      type: 'widget:new',
+      widget: state.widgets[0],
+    }
   })
 
   return (
     <div className="builder-layout">
-      <div className="builder-content">
+      <div className="builder-content" ref={dropRef}>
         {state.rows.map((row, i) =>
-          <div className="builder-row" key={i}>
+          <div className="builder-row" key={row.id}>
             <div className="builder-row-handle">
               <i className='fa fa-arrows' />
             </div>
 
             {row.columns.map((column, j) =>
-              <div className="column" key={j}>
+              <div className="column" key={column.id}>
                 <div className="builder-row-column-resizer">
                   <div className="handle">
                     <i className='fa fa-arrows-h' />
@@ -110,6 +140,10 @@ function App() {
                 </div>
               </div>
             )}
+
+            <div className="column">
+              <div className="builder-row-column-placeholder"></div>
+            </div>
           </div>
         )}
       </div>
@@ -117,21 +151,25 @@ function App() {
       <div className="builder-widget-list">
         <h4 className="heading">Widgets</h4>
 
-        <div className="builder-widget">
-          <span className="icon">
-            <i className='fa fa-text-width' />
-          </span>
-          <span className="text">Text</span>
-          <span className="handle">
-            <i className='fa fa-ellipsis-v' />
-          </span>
-        </div>
+        {state.widgets.map((widget, i) =>
+          <div className="builder-widget" key={widget.id} ref={widetDragRef}>
+            <span className="icon">
+              <i className={`fa fa-${widget.icon}`} />
+            </span>
+            <span className="text">{widget.label}</span>
+            <span className="handle">
+              <i className='fa fa-ellipsis-v' />
+            </span>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
 ReactDOM.render(
-  <App />,
+  <DndProvider>
+    <App />
+  </DndProvider>,
   document.getElementById('mount')
 )

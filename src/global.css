@@ -194,9 +194,9 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .builder-row-column-resizer {
   position: absolute;
-  top: 0;
+  top: -16px;
   right: 0;
-  bottom: 0;
+  bottom: -16px;
   width: 2px;
   opacity: 0;
   transition: 100ms opacity ease;
@@ -226,6 +226,12 @@ p, h1, h2, h3, h4, h5, h6 {
   color: var(--color-bw-7);
   background: var(--color-bw-4);
   border-radius: 50%;
+}
+
+.builder-row-column-placeholder {
+  background: var(--color-bw-2);
+  height: 60px;
+  border-radius: var(--border-radius);
 }
 
 .builder-widget-list {
