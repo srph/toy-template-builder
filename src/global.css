@@ -120,8 +120,8 @@ p, h1, h2, h3, h4, h5, h6 {
 .builder-row > .column {
   position: relative;
   width: 33.33%;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .builder-row-column {
