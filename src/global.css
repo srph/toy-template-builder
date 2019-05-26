@@ -89,20 +89,14 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .builder-row {
-  position: relative;
-  display: flex;
-  padding: 16px 0;
-  background: var(--color-bw-0);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-bw-4);
-  margin-bottom: 16px;
+  text-align: right;
 }
 
 .builder-row-handle {
-  position: absolute;
+  margin-bottom: 4px;
   top: -28px;
   right: 0;
-  display: flex;
+  display: inline-flex;
   padding: 4px;
   font-size: 12px;
   background: var(--color-bw-0);
@@ -117,11 +111,26 @@ p, h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
-.builder-row > .column {
+.builder-row-panel {
+  position: relative;
+  display: flex;
+  padding: 16px 0;
+  min-height: 95px;
+  text-align: left;
+  background: var(--color-bw-0);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-bw-4);
+}
+
+.builder-row-panel > .column {
   position: relative;
   width: 33.33%;
   padding-left: 16px;
   padding-right: 16px;
+}
+
+.builder-row.is-dragging .builder-row-panel {
+  border: 1px dashed var(--color-primary);
 }
 
 .builder-row-column {
@@ -269,4 +278,32 @@ p, h1, h2, h3, h4, h5, h6 {
   color: var(--color-bw-7);
   margin-left: auto;
   cursor: grab;
+}
+
+.create-pod {
+  text-align: center;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.create-pod > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  padding-top: 1px;
+  color: var(--color-bw-7);
+  background: var(--color-bw-4);
+  border: 0;
+  border-radius: 50%;
+  outline: 0;
+  cursor: pointer;
+  opacity: 0;
+  transition: 200ms all ease;
+}
+
+.create-pod:hover > button {
+  opacity: 1;
 }
