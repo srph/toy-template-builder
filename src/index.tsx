@@ -10,6 +10,7 @@ import move from 'array-move'
 import transfer from 'array-transfer'
 import immer from 'immer'
 import { useState } from 'react'
+import { stat } from 'fs';
 
 let id = 0
 
@@ -17,12 +18,14 @@ interface WidgetData {
   id: number
   name: string
   label: string
+  icon: string
 }
 
 interface State {
-  rows: {
-    id: number
-    columns: {
+  sections: {
+    id: number,
+    label: string,
+    children: {
       id: number,
       widget: WidgetData,
       label: string
@@ -50,9 +53,10 @@ const widgets = [{
 }]
 
 const init: State = {
-  rows: [{
+  sections: [{
     id: ++id,
-    columns: [{
+    label: 'Untitled',
+    children: [{
       id: ++id,
       widget: widgets[0],
       label: 'Untitled'
@@ -84,27 +88,23 @@ function App() {
       return
     }
 
-    // Make a new row (new widget -> new row)
-    if (result.source.droppableId === 'widgets' && result.destination.droppableId === 'section') {
+    // A reorder of the sections
+    if (result.type === 'sections') {
       setState(state => {
-        state.rows.splice(result.destination.index, 0, {
-          id: ++id,
-          columns: [{
-            id: ++id,
-            widget: state.widgets[result.source.index],
-            label: `Untitled ${id}`
-          }]
-        })
+        move.mutate(state.sections, result.source.index, result.destination.index)
       })
     }
 
-    // Make a new column (new widget -> existing row)
-    if (result.source.droppableId === 'widgets' && result.destination.droppableId.startsWith('row-')) {
-      const row = Number(result.destination.droppableId.replace('row-', ''))
-      const column = result.destination.index
+    // Widget to section widget list
+    else if (result.source.droppableId === 'widgets') {
+      // Number(result.source.droppableId.replace('section-widget-list-', ''))
+      const dest = {
+        section: 0,
+        index: result.destination.index
+      }
 
       setState(state => {
-        state.rows[row].columns.splice(column, 0, {
+        state.sections[dest.section].children.splice(dest.index, 0, {
           id: ++id,
           widget: state.widgets[result.source.index],
           label: `Untitled ${id}`
@@ -112,12 +112,50 @@ function App() {
       })
     }
 
-    // Move around the row
-    else if (result.source.droppableId === 'section' && result.destination.droppableId === 'section') {
+
+    // Reorder of the widgets within a section
+    else if (result.source.droppableId.startsWith('section-widget-list-') && result.source.droppableId === result.destination.droppableId) {
+      // Number(result.source.droppableId.replace('section-widget-list-', ''))
+      const src = {
+        section: 0,
+        index: result.source.index
+      }
+      const dest = {
+        section: 0,
+        index: result.destination.index
+      }
       setState(state => {
-        move.mutate(state.rows, result.source.index, result.destination.index)
+        move.mutate(state.sections[src.section].children, src.index, dest.index)
       })
     }
+
+    // Transfer a widgets to another section
+    else if (result.source.droppableId.startsWith('section-widget-list-') && result.source.droppableId !== result.destination.droppableId) {
+      const src = {
+        section: Number(result.source.droppableId.replace('section-widget-list-', '')),
+        index: result.source.index
+      }
+      const dest = {
+        section: Number(result.destination.droppableId.replace('section-widget-list-', '')),
+        index: result.destination.index
+      }
+      setState(state => {
+        const transferred = transfer(state.sections[src.section].children, state.sections[dest.section].children, src.index, dest.index)
+        console.log(transferred)
+        state.sections[src.section].children = transferred.source
+        state.sections[dest.section].children = transferred.destination
+      })
+    }
+  }
+
+  function handleNewSection() {
+    setState(state => {
+      state.sections.push({
+        id: ++id,
+        label: 'Untitled',
+        children: []
+      })
+    })
   }
 
   return (
@@ -158,7 +196,7 @@ function App() {
 
           <footer className="footer">
             <span className="name">Kier Borromeo</span>
-            
+
             <div className="social">
               <a href="#" className="icon">
                 <i className="fa fa-github" />
@@ -172,44 +210,67 @@ function App() {
         </div>
 
         <div className="editor-content">
-          <div className="editor-section">
-            <Droppable droppableId="section">
-              {(provided, snapshot) => (
-                <div className="content" ref={provided.innerRef} {...provided.droppableProps}>
-                  {state.rows.map((row, i) => (
-                    <Draggable draggableId={String(row.id)} index={i} key={row.id}>
-                      {(provided, snapshot) => (
-                        <div className="row" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <Droppable droppableId={`row-${i}`} direction="horizontal" isDropDisabled={state.drag != null && state.drag.source.droppableId === 'section'}>
-                            {(provided, snapshot) => (
-                              <div className="content" ref={provided.innerRef} {...provided.droppableProps}>
-                                {row.columns.map((column, j) => (
-                                  <Draggable draggableId={String(column.id)} index={j} key={column.id}>
-                                    {(provided, snapshot)=> (
-                                      <React.Fragment>
-                                        <div className="column" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                          {column.label}
-
-                                          {provided.placeholder}
-                                        </div>
-                                      </React.Fragment>
-                                    )}
-                                  </Draggable>
-                                ))}
-
-                                {provided.placeholder}
-                              </div>
-                            )}
-                          </Droppable>
+          <Droppable droppableId="sections" type="sections">
+            {(provided, snapshot) => (
+              <div className="editor-content-list" ref={provided.innerRef} {...provided.droppableProps}>
+                {state.sections.map((section, i) =>
+                  <Draggable draggableId={String(section.id)} index={i} type="sections" key={section.id}>
+                    {(provided, snapshot) => (
+                      <div className="editor-section" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <div className="heading">
+                          Untitled
                         </div>
-                      )}
-                    </Draggable>
-                  ))}
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+                        <Droppable droppableId={`section-widget-list-${i}`}>
+                          {(provided, snapshot) => (
+                            <div className="content" ref={provided.innerRef} {...provided.droppableProps}>
+                              {section.children.map((child, j) => (
+                                <Draggable draggableId={String(child.id)} index={j} key={child.id}>
+                                  {(provided, snapshot) => (
+                                    <React.Fragment>
+                                      <div className="editor-section-widget" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        <div className="label">
+                                          <span className="text">{child.label}</span>
+
+                                          <div className="info">
+                                            <span className="icon">
+                                              <i className={`fa fa-${child.widget.icon}`} />
+                                            </span>
+
+                                            <span className="text">
+                                              {child.widget.label}
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <input type="text" className="ui-input" />
+                                      </div>
+
+                                      {provided.placeholder}
+                                    </React.Fragment>
+                                  )}
+                                </Draggable>
+                              ))}
+
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Draggable>
+                )}
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          <div className="new">
+            <button className="button" onClick={handleNewSection}>
+              <i className="fa fa-plus" />
+            </button>
           </div>
         </div>
       </div>

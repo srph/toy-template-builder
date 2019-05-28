@@ -34,7 +34,7 @@ html, body {
   color: var(--color-text);
   font-size: var(--font-size);
   font-family: var(--font-family);
-  background: var(--color-black-1);
+  background: var(--color-bw-1);
 }
 
 h1 {
@@ -81,6 +81,16 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .ui-button.is-primary {
   background: var(--color-primary);
+}
+
+.ui-input {
+  display: block;
+  height: 40px;
+  padding: 0 12px;
+  width: 100%;
+  background: var(--color-bw-0);
+  border: 1px solid var(--color-bw-3);
+  border-radius: var(--border-radius);
 }
 
 .editor-sidebar {
@@ -167,14 +177,46 @@ p, h1, h2, h3, h4, h5, h6 {
 .editor-content {
   width: 720px;
   margin: 0 auto;
+}
+
+.editor-content > .new {
+  text-align: center;
+}
+
+.editor-content > .new > .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  color: var(--color-bw-9);
+  background: var(--color-bw-4);
+  border: 0;
+  border-radius: 50%;
+  outline: 0;
+  cursor: pointer;
+}
+
+.editor-content-list {
   padding-top: 60px;
   padding-bottom: 60px;
 }
 
 .editor-section {
   margin-bottom: 60px;
-  padding: 24px;
-  background: yellow;
+  background: var(--color-bw-0);
+  border: 1px solid var(--color-bw-3);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: 200ms all ease;
+}
+
+.editor-section > .heading {
+  padding: 24px 0;
+  margin-left: 24px;
+  margin-right: 24px;
+  border-bottom: 1px solid var(--color-bw-3);
 }
 
 .editor-section > .content {  
@@ -184,18 +226,31 @@ p, h1, h2, h3, h4, h5, h6 {
   padding-bottom: 24px;
 }
 
-.editor-section > .content > .row {
-  background: blue;
-  padding: 12px;
-  margin-bottom: 32px;
+.editor-section-widget {
+  padding: 24px;
 }
 
-.editor-section > .content > .row > .content {
+.editor-section-widget > .label {
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 
-.editor-section > .content > .row > .content > .column {
-  flex: 1;
-  background: red;
-  height: 40px;
+.editor-section-widget > .label > .text {
+  font-size: var(--font-size-h6);
+  font-weight: 400;
+}
+
+.editor-section-widget > .label > .info {
+  display: flex;
+  align-items: center;
+  color: var(--color-bw-6);
+}
+
+.editor-section-widget > .label > .info > .icon {
+  margin-right: 8px;
+}
+
+.editor-section-widget > .label > .info > .text {
+  font-size: var(--font-size-h6);
 }
