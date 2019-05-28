@@ -185,15 +185,19 @@ function App() {
                 {state.widgets.map((widget, i) => (
                   <Draggable draggableId={String(widget.id)} index={i} key={widget.id}>
                     {(provided, snapshot) => (
-                      <div className="editor-widget" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <span className="icon">
-                          <i className={`fa fa-${widget.icon}`} />
-                        </span>
+                      <React.Fragment>
+                        <div className="editor-widget" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <span className="icon">
+                            <i className={`fa fa-${widget.icon}`} />
+                          </span>
 
-                        <span className="label">
-                          {widget.label}
-                        </span>
-                      </div>
+                          <span className="label">
+                            {widget.label}
+                          </span>
+                        </div>
+
+                        {provided.placeholder}
+                      </React.Fragment>
                     )}
                   </Draggable>
                 ))}
