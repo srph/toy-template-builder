@@ -106,7 +106,7 @@ p, h1, h2, h3, h4, h5, h6 {
   background: yellow; */
 }
 
-.editor-section > .droppable {
+.editor-section > .content {
   margin-bottom: 60px;
   min-height: 240px;
   padding: 24px;
@@ -117,13 +117,17 @@ p, h1, h2, h3, h4, h5, h6 {
   padding-bottom: 24px;
 }
 
-.editor-section > .droppable > .row > .droppable {
-  display: flex;
+.editor-section > .content > .row {
   background: blue;
+  padding: 12px;
   margin-bottom: 32px;
 }
 
-.editor-section > .droppable > .row > .droppable > .column {
+.editor-section > .content > .row > .content {
+  display: flex;
+}
+
+.editor-section > .content > .row > .content > .column {
   flex: 1;
   background: red;
   height: 40px;

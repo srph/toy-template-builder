@@ -142,23 +142,23 @@ function App() {
           <div className="editor-section">
             <Droppable droppableId="section">
               {(provided, snapshot) => (
-                <div className="droppable" ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="content" ref={provided.innerRef} {...provided.droppableProps}>
                   {state.rows.map((row, i) => (
                     <Draggable draggableId={String(row.id)} index={i} key={row.id}>
                       {(provided, snapshot) => (
                         <div className="row" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                           <Droppable droppableId={`row-${i}`} direction="horizontal">
                             {(provided, snapshot) => (
-                              <div className="droppable" ref={provided.innerRef} {...provided.droppableProps}>
+                              <div className="content" ref={provided.innerRef} {...provided.droppableProps}>
                                 {row.columns.map((column, j) => (
                                   <Draggable draggableId={String(column.id)} index={j} key={column.id}>
                                     {(provided, snapshot)=> (
                                       <React.Fragment>
                                         <div className="column" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                           {column.label}
-                                        </div>
 
-                                        {provided.placeholder}
+                                          {provided.placeholder}
+                                        </div>
                                       </React.Fragment>
                                     )}
                                   </Draggable>
