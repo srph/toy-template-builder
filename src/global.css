@@ -65,22 +65,92 @@ p, h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
+.ui-button {
+  display: inline-block;
+  height: 29px;
+  padding: 0 8px;
+  color: var(--color-bw-0);
+  background: var(--color-bw-9);
+  border: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  border-radius: var(--border-radius);
+  outline: 0;
+  cursor: pointer;
+}
+
+.ui-button.is-primary {
+  background: var(--color-primary);
+}
+
 .editor-sidebar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 240px;
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  background: var(--color-bw-9);
+}
+
+.editor-sidebar > .menu {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 24px;
   background: var(--color-bw-8);
 }
 
-.editor-widget {
+.editor-sidebar > .menu > .title {
+  color: var(--color-bw-0);
+}
+
+.editor-sidebar > .list {
   padding: 24px;
+  height: 100%;
+}
+
+.editor-sidebar > .list > .heading {
+  color: var(--color-bw-2);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.editor-sidebar > .footer {
+  display: flex;
+  align-items: center;
+  color: var(--color-bw-5);
+  border-top: 1px solid var(--color-bw-8);
+  margin-left: 24px;
+  margin-right: 24px;
+  padding: 24px 0;
+}
+
+.editor-sidebar > .footer > .social {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.editor-sidebar > .footer > .social > .icon {
+  text-decoration: none;
+  color: var(--color-bw-5);
+  font-size: 16px;
+}
+
+.editor-sidebar > .footer > .social > .icon:not(:last-child) {
+  margin-right: 16px;
+}
+
+.editor-widget {
+  padding: 16px;
   margin-bottom: 8px;
   display: flex;
   align-items: center;
-  background: var(--color-bw-7);
+  background: var(--color-bw-8);
+  border-radius: var(--border-radius);
 }
 
 .editor-widget > .icon {
@@ -90,6 +160,8 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .editor-widget > .label {
   color: var(--color-bw-0);
+  font-size: var(--font-size-h4);
+  font-weight: 300;
 }
 
 .editor-content {

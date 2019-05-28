@@ -35,7 +35,18 @@ interface State {
 const widgets = [{
   id: ++id,
   name: 'text',
-  label: 'Input'
+  label: 'Input',
+  icon: 'text-width'
+}, {
+  id: ++id,
+  name: 'number',
+  label: 'Number',
+  icon: 'hashtag'
+}, {
+  id: ++id,
+  name: 'date',
+  label: 'Date',
+  icon: 'calendar'
 }]
 
 const init: State = {
@@ -113,18 +124,26 @@ function App() {
     <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
       <div className="editor-layout">
         <div className="editor-sidebar">
+          <div className="menu">
+            <button className="ui-button">Cancel</button>
+            <h5 className="title">Editor</h5>
+            <button className="ui-button is-primary">Publish</button>
+          </div>
+
           <Droppable droppableId="widgets" isDropDisabled={true}>
             {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="list" ref={provided.innerRef} {...provided.droppableProps}>
+                <h5 className="heading">Widgets</h5>
+
                 {state.widgets.map((widget, i) => (
                   <Draggable draggableId={String(widget.id)} index={i} key={widget.id}>
                     {(provided, snapshot) => (
                       <div className="editor-widget" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                         <span className="icon">
-                          <i className='fa fa-circle' />
+                          <i className={`fa fa-${widget.icon}`} />
                         </span>
 
-                        <span className="text">
+                        <span className="label">
                           {widget.label}
                         </span>
                       </div>
@@ -136,6 +155,20 @@ function App() {
               </div>
             )}
           </Droppable>
+
+          <footer className="footer">
+            <span className="name">Kier Borromeo</span>
+            
+            <div className="social">
+              <a href="#" className="icon">
+                <i className="fa fa-github" />
+              </a>
+
+              <a href="#" className="icon">
+                <i className="fa fa-twitter" />
+              </a>
+            </div>
+          </footer>
         </div>
 
         <div className="editor-content">
