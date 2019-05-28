@@ -101,7 +101,8 @@ function App() {
       })
     }
 
-    else if (result.source.droppableId === 'row' && result.destination.droppableId === 'row') {
+    // Move around the row
+    else if (result.source.droppableId === 'section' && result.destination.droppableId === 'section') {
       setState(state => {
         move.mutate(state.rows, result.source.index, result.destination.index)
       })
