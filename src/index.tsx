@@ -170,7 +170,7 @@ function App() {
 
   return (
     <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-      <div className="editor-layout">
+      <div>
         <div className="editor-sidebar">
           <div className="menu">
             <button className="ui-button">Cancel</button>
@@ -219,68 +219,70 @@ function App() {
           </footer>
         </div>
 
-        <div className="editor-content">
-          <Droppable droppableId="sections" type="sections">
-            {(provided, snapshot) => (
-              <div className="editor-content-list" ref={provided.innerRef} {...provided.droppableProps}>
-                {state.sections.map((section, i) =>
-                  <Draggable draggableId={String(section.id)} index={i} type="sections" key={section.id}>
-                    {(provided, snapshot) => (
-                      <div className="editor-section" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <div className="heading">
-                          Untitled
-                        </div>
+        <div className="editor-layout">
+          <div className="editor-content">
+            <Droppable droppableId="sections" type="sections">
+              {(provided, snapshot) => (
+                <div className="editor-content-list" ref={provided.innerRef} {...provided.droppableProps}>
+                  {state.sections.map((section, i) =>
+                    <Draggable draggableId={String(section.id)} index={i} type="sections" key={section.id}>
+                      {(provided, snapshot) => (
+                        <div className="editor-section" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <div className="heading">
+                            Untitled
+                          </div>
 
-                        <Droppable droppableId={`section-widget-list-${i}`}>
-                          {(provided, snapshot) => (
-                            <div className="content" ref={provided.innerRef} {...provided.droppableProps}>
-                              {section.children.map((child, j) => (
-                                <Draggable draggableId={String(child.id)} index={j} key={child.id}>
-                                  {(provided, snapshot) => (
-                                    <React.Fragment>
-                                      <div className="editor-section-widget" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <div className="label">
-                                          <span className="text">{child.label}</span>
+                          <Droppable droppableId={`section-widget-list-${i}`}>
+                            {(provided, snapshot) => (
+                              <div className="content" ref={provided.innerRef} {...provided.droppableProps}>
+                                {section.children.map((child, j) => (
+                                  <Draggable draggableId={String(child.id)} index={j} key={child.id}>
+                                    {(provided, snapshot) => (
+                                      <React.Fragment>
+                                        <div className="editor-section-widget" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                          <div className="label">
+                                            <span className="text">{child.label}</span>
 
-                                          <div className="info">
-                                            <span className="icon">
-                                              <i className={`fa fa-${child.widget.icon}`} />
-                                            </span>
+                                            <div className="info">
+                                              <span className="icon">
+                                                <i className={`fa fa-${child.widget.icon}`} />
+                                              </span>
 
-                                            <span className="text">
-                                              {child.widget.label}
-                                            </span>
+                                              <span className="text">
+                                                {child.widget.label}
+                                              </span>
+                                            </div>
                                           </div>
+                                          <input type="text" className="ui-input" />
                                         </div>
-                                        <input type="text" className="ui-input" />
-                                      </div>
 
-                                      {provided.placeholder}
-                                    </React.Fragment>
-                                  )}
-                                </Draggable>
-                              ))}
+                                        {provided.placeholder}
+                                      </React.Fragment>
+                                    )}
+                                  </Draggable>
+                                ))}
 
-                              {provided.placeholder}
-                            </div>
-                          )}
-                        </Droppable>
+                                {provided.placeholder}
+                              </div>
+                            )}
+                          </Droppable>
 
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Draggable>
-                )}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Draggable>
+                  )}
 
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
 
-          <div className="new">
-            <button className="button" onClick={handleNewSection}>
-              <i className="fa fa-plus" />
-            </button>
+            <div className="new">
+              <button className="button" onClick={handleNewSection}>
+                <i className="fa fa-plus" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

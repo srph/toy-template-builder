@@ -94,7 +94,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .editor-sidebar {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
@@ -172,6 +172,16 @@ p, h1, h2, h3, h4, h5, h6 {
   color: var(--color-bw-0);
   font-size: var(--font-size-h4);
   font-weight: 300;
+}
+
+/**
+ * rbd doesn't support dragging from fixed elements yet.
+ * This is the suggested workaround by jasonlewicki.
+ * @source https://github.com/atlassian/react-beautiful-dnd/issues/1275
+ */
+.editor-layout {
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 .editor-content {
