@@ -147,7 +147,7 @@ function App() {
                     <Draggable draggableId={String(row.id)} index={i} key={row.id}>
                       {(provided, snapshot) => (
                         <div className="row" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <Droppable droppableId={`row-${i}`} direction="horizontal">
+                          <Droppable droppableId={`row-${i}`} direction="horizontal" isDropDisabled={state.drag != null && state.drag.source.droppableId === 'section'}>
                             {(provided, snapshot) => (
                               <div className="content" ref={provided.innerRef} {...provided.droppableProps}>
                                 {row.columns.map((column, j) => (
