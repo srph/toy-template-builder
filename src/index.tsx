@@ -107,9 +107,8 @@ function App() {
 
     // Widget to section widget list
     else if (result.source.droppableId === 'widgets') {
-      // Number(result.source.droppableId.replace('section-widget-list-', ''))
       const dest = {
-        section: 0,
+        section: Number(result.destination.droppableId.replace('section-widget-list-', '')),
         index: result.destination.index
       }
 
