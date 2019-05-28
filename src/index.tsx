@@ -50,6 +50,16 @@ const widgets = [{
   name: 'date',
   label: 'Date',
   icon: 'calendar'
+}, {
+  id: ++id,
+  name: 'radio',
+  label: 'Single Choice',
+  icon: 'circle-o'
+}, {
+  id: ++id,
+  name: 'checkbox',
+  label: 'Multiple Choice',
+  icon: 'check-square'
 }]
 
 const init: State = {
