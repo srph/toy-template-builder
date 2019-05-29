@@ -10,8 +10,8 @@ import move from 'array-move'
 import transfer from 'array-transfer'
 import immer from 'immer'
 import { useState } from 'react'
+import useSetState from 'react-use/lib/useSetState'
 import cx from 'classnames'
-import log from './utils/log'
 
 let id = 0
 
@@ -98,13 +98,11 @@ const init: State = {
   drag: null
 }
 
-console.log(init)
-
 function App() {
-  const [state, dispatch] = useState<State>(init)
+  const [state, internalSetState] = useSetState<State>(init)
 
   function setState(func) {
-    dispatch(immer(state, func))
+    internalSetState(prev => immer(prev , func))
   }
 
   function onDragStart(result: DragStart) {
@@ -219,11 +217,15 @@ function App() {
     setState(state => {
       const original = state.sections[section].children[child]
 
-      state.sections[section].children.splice(child + 1, 0, {
+      const duplicated = {
         ...original,
         id: ++id,
         label: `Copy of ${original.label}`
-      })
+      }
+
+      state.sections[section].children.splice(child + 1, 0, duplicated)
+
+      state.selected = id
     })
   }
 
