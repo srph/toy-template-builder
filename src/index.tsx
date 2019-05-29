@@ -304,7 +304,9 @@ function App() {
                   {state.sections.map((section, i) => (
                     <Draggable draggableId={String(section.id)} index={i} type="sections" key={section.id}>
                       {(provided, snapshot) => (
-                        <div className="editor-section" ref={provided.innerRef} {...provided.draggableProps}>
+                        <div className={cx('editor-section', {
+                          'is-dragging': snapshot.isDragging
+                        })} ref={provided.innerRef} {...provided.draggableProps}>
                           <div className="heading">
                             <div className="title">
                               <input type="text" defaultValue={section.label} className="ui-clear-input" />

@@ -288,6 +288,10 @@ p, h1, h2, h3, h4, h5, h6 {
   padding-top: 24px;
 }
 
+.editor-section.is-dragging {
+  border: 1px dashed var(--color-primary);
+}
+
 .editor-section-widget {
   padding: 24px;
   background: var(--color-bw-0);
@@ -386,6 +390,10 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .editor-section-widget.is-selected > .footer {
   display: flex;
+}
+
+.editor-section.is-dragging .editor-section-widget {
+  border: 0;
 }
 
 .ui-clear-input {
