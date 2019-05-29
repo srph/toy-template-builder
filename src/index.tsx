@@ -42,6 +42,7 @@ interface State {
     children: WidgetChild[]
   }[]
   widgets: WidgetData[]
+  selected: number
   drag: DragStart | null
 }
 
@@ -93,6 +94,7 @@ const init: State = {
     }
   ],
   widgets,
+  selected: -1,
   drag: null
 }
 
@@ -140,6 +142,8 @@ function App() {
           widget: state.widgets[result.source.index],
           label: `Label ${id}`
         })
+
+        state.selected = id
       })
     }
 
@@ -148,16 +152,16 @@ function App() {
       result.source.droppableId.startsWith('section-widget-list-') &&
       result.source.droppableId === result.destination.droppableId
     ) {
-      // Number(result.source.droppableId.replace('section-widget-list-', ''))
       const src = {
-        section: 0,
+        section: Number(result.source.droppableId.replace('section-widget-list-', '')),
         index: result.source.index
       }
       const dest = {
-        section: 0,
+        section: Number(result.source.droppableId.replace('section-widget-list-', '')),
         index: result.destination.index
       }
       setState(state => {
+        state.selected = state.sections[src.section].children[src.index].id
         move.mutate(state.sections[src.section].children, src.index, dest.index)
       })
     }
@@ -176,13 +180,13 @@ function App() {
         index: result.destination.index
       }
       setState(state => {
+        state.selected = state.sections[src.section].children[src.index].id
         const transferred = transfer(
           state.sections[src.section].children,
           state.sections[dest.section].children,
           src.index,
           dest.index
         )
-        console.log(transferred)
         state.sections[src.section].children = transferred.source
         state.sections[dest.section].children = transferred.destination
       })
@@ -220,6 +224,12 @@ function App() {
         id: ++id,
         label: `Copy of ${original.label}`
       })
+    })
+  }
+
+  function handleFocusChild(child: number) {
+    setState(state => {
+      state.selected = child
     })
   }
 
@@ -322,8 +332,10 @@ function App() {
                                       <React.Fragment>
                                         <div
                                           className={cx('editor-section-widget', {
-                                            'is-dragging': snapshot.isDragging
+                                            'is-dragging': snapshot.isDragging,
+                                            'is-selected': state.selected === child.id,
                                           })}
+                                          onClick={() => handleFocusChild(child.id)}
                                           ref={provided.innerRef}
                                           {...provided.draggableProps}>
                                           <div className="label">
@@ -335,6 +347,10 @@ function App() {
                                               </span>
 
                                               <span className="text">{child.widget.label}</span>
+
+                                              <span className="action" {...provided.dragHandleProps}>
+                                                <i className="fa fa-ellipsis-v" />
+                                              </span>
                                             </div>
                                           </div>
 
@@ -364,12 +380,6 @@ function App() {
                                                     <div className="bar" />
                                                     <div className="control" />
                                                   </div>
-                                                </div>
-                                              </div>
-
-                                              <div className="section">
-                                                <div className="action" {...provided.dragHandleProps}>
-                                                  <i className="fa fa-ellipsis-v" />
                                                 </div>
                                               </div>
                                             </div>

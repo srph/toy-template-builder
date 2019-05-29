@@ -89,7 +89,7 @@ p, h1, h2, h3, h4, h5, h6 {
   padding: 8px 0;
   width: 50%;
   color: var(--color-bw-4);
-  background: var(--color-bw-0);
+  background: transparent;
   /* border: 1px solid var(--color-bw-3); */
   border: 0;
   border-bottom: 1px dashed var(--color-bw-3);
@@ -291,15 +291,12 @@ p, h1, h2, h3, h4, h5, h6 {
 .editor-section-widget {
   padding: 24px;
   background: var(--color-bw-0);
+  cursor: pointer;
 }
 
 .editor-section-widget:last-child {
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
-}
-
-.editor-section-widget.is-dragging {
-  border: 1px dashed var(--color-primary);
 }
 
 .editor-section-widget > .label {
@@ -328,8 +325,12 @@ p, h1, h2, h3, h4, h5, h6 {
   font-size: var(--font-size-h6);
 }
 
+.editor-section-widget > .label > .info > .action {
+  margin-left: 16px;
+}
+
 .editor-section-widget > .footer {
-  display: flex;
+  display: none;
   padding-top: 16px;
   border-top: 1px solid var(--color-bw-2);
 }
@@ -371,6 +372,20 @@ p, h1, h2, h3, h4, h5, h6 {
 .editor-section-widget > .footer > .content > .section > .group > .label {
   color: var(--color-bw-6);
   margin-right: 16px;
+}
+
+.editor-section-widget.is-dragging,
+.editor-section-widget.is-selected {
+  cursor: inherit;
+  border: 1px dashed var(--color-primary);
+}
+
+.editor-section-widget.is-dragging {
+  background: #e5f2ff;
+}
+
+.editor-section-widget.is-selected > .footer {
+  display: flex;
 }
 
 .ui-clear-input {
