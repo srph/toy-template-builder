@@ -177,6 +177,30 @@ function App() {
     })
   }
 
+  function handleDeleteSection(index: number) {
+    setState(state => {
+      state.sections.splice(index, 1)
+    })
+  }
+
+  function handleDeleteChild(section: number, child: number) {
+    setState(state => {
+      state.sections[section].children.splice(child, 1)
+    })
+  }
+
+  function handleDuplicateChild(section: number, child: number) {
+    setState(state => {
+      const original = state.sections[section].children[child]
+
+      state.sections[section].children.splice(child + 1, 0, {
+        ...original,
+        id: ++id,
+        label: `Copy of ${original.label}`
+      })
+    })
+  }
+
   return (
     <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
       <div>
@@ -247,9 +271,9 @@ function App() {
                             </div>
 
                             <div className="menu">
-                              <button type="button" className="action">
+                              {state.sections.length > 1 && <button type="button" className="action" onClick={() => handleDeleteSection(i)}>
                                 <i className="fa fa-trash" />
-                              </button>
+                              </button>}
 
                               <div className="action is-handle" {...provided.dragHandleProps}>
                                 <i className="fa fa-ellipsis-v" />
@@ -288,13 +312,13 @@ function App() {
                                           <div className="footer">
                                             <div className="content">
                                               <div className="section">
-                                                <button className="action">
+                                                <button className="action" onClick={() => handleDeleteChild(i, j)}>
                                                   <i className="fa fa-trash" />
                                                 </button>
                                               </div>
 
                                               <div className="section">
-                                                <button className="action">
+                                                <button className="action" onClick={() => handleDuplicateChild(i, j)}>
                                                   <i className="fa fa-file-o" />
                                                 </button>
                                               </div>
