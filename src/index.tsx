@@ -126,7 +126,7 @@ function App() {
         state.sections[dest.section].children.splice(dest.index, 0, {
           id: ++id,
           widget: state.widgets[result.source.index],
-          label: `Untitled ${id}`
+          label: `Label ${id}`
         })
       })
     }
@@ -171,7 +171,7 @@ function App() {
     setState(state => {
       state.sections.push({
         id: ++id,
-        label: 'Untitled',
+        label: `Section ${id}`,
         children: []
       })
     })
