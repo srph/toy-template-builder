@@ -375,3 +375,48 @@ p, h1, h2, h3, h4, h5, h6 {
   background: var(--color-primary);
   border-radius: 50%;
 }
+
+.ui-checkbox-group {
+  display: flex;
+  width: 50%;
+}
+
+.ui-checkbox-group:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+.ui-checkbox-group > .checkbox {
+  flex-shrink: 0;
+  margin-right: 8px;
+  height: 16px;
+  width: 16px;
+  font-size: var(--font-size);
+  border: 2px solid var(--color-bw-8);
+  border-radius: var(--border-radius);
+}
+
+.ui-checkbox-group > .radio {
+  flex-shrink: 0;
+  margin-right: 8px;
+  height: 16px;
+  width: 16px;
+  font-size: var(--font-size);
+  border: 2px solid var(--color-bw-8);
+  border-radius: 50%;
+}
+
+.ui-checkbox-group > .label {
+  display: block;
+  width: 100%;
+  padding-top: 2px;
+  padding-bottom: 8px;
+  color: var(--color-bw-7);
+  border: 0;
+  border-bottom: 1px dashed transparent;
+  outline: 0;
+}
+
+.ui-checkbox-group > .label:focus,
+.ui-checkbox-group > .label:hover {
+  border-bottom-color: var(--color-bw-4);
+}

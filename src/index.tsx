@@ -11,6 +11,7 @@ import transfer from 'array-transfer'
 import immer from 'immer'
 import { useState } from 'react'
 import cx from 'classnames'
+import { checkPropTypes } from 'prop-types';
 
 let id = 0
 
@@ -19,17 +20,26 @@ interface WidgetData {
   name: string
   label: string
   icon: string
+  multiple?: boolean
+}
+
+interface WidgetOption {
+  id: number
+  label: string
+}
+
+interface WidgetChild {
+  id: number,
+  widget: WidgetData,
+  label: string
+  options?: WidgetOption[]
 }
 
 interface State {
   sections: {
     id: number,
     label: string,
-    children: {
-      id: number,
-      widget: WidgetData,
-      label: string
-    }[]
+    children: WidgetChild[]
   }[]
   widgets: WidgetData[]
   drag: DragStart | null
@@ -271,7 +281,7 @@ function App() {
                                             </div>
                                           </div>
 
-                                          <input type="text" className="ui-input" />
+                                          <ChildForm child={child} />
 
                                           <div className="footer">
                                             <div className="content">
@@ -338,6 +348,48 @@ function App() {
         </div>
       </div>
     </DragDropContext>
+  )
+}
+
+interface ChildFormProps {
+  child: WidgetChild
+}
+
+function ChildForm(props: ChildFormProps) {
+  if (props.child.widget.name === 'radio') {
+    return (
+      <div>
+        <div className="ui-checkbox-group">
+          <div className="radio" />
+          <input type="text" className="label" placeholder="Option" />
+        </div>
+
+        <div className="ui-checkbox-group">
+          <div className="radio" />
+          <input type="text" className="label" placeholder="Option" />
+        </div>
+      </div>
+    )    
+  }
+
+  if (props.child.widget.name === 'checkbox') {
+    return (
+      <div>
+        <div className="ui-checkbox-group">
+          <div className="checkbox" />
+          <input type="text" className="label" placeholder="Option" />
+        </div>
+
+        <div className="ui-checkbox-group">
+          <div className="checkbox" />
+          <input type="text" className="label" placeholder="Option" />
+        </div>
+      </div>
+    )    
+  }
+
+  return (
+    <input type="text" className="ui-input" />
   )
 }
 
