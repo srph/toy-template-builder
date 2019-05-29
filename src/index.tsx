@@ -9,7 +9,6 @@ import { Draggable, Droppable, DragDropContext, DropResult, DragStart } from 're
 import move from 'array-move'
 import transfer from 'array-transfer'
 import immer from 'immer'
-import { useState } from 'react'
 import useSetState from 'react-use/lib/useSetState'
 import cx from 'classnames'
 
