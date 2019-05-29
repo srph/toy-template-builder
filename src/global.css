@@ -160,11 +160,29 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .editor-widget {
   padding: 16px;
+  user-select: none;
   margin-bottom: 8px;
   display: flex;
   align-items: center;
   background: var(--color-bw-8);
   border-radius: var(--border-radius);
+}
+
+/**
+ * Placeholder for the widget being dropped
+ */
+.editor-widget.is-cloned {
+  background: transparent;
+  border: 1px dashed var(--color-bw-8);
+}
+
+/**
+ * Workaround so the widgets below don't "flickr" while we're dragging.
+ * Thanks, pixelass (GitHub).
+ * https://github.com/atlassian/react-beautiful-dnd/issues/216#issuecomment-475837094
+ */
+.editor-widget.is-cloned ~ div {
+  transform: none !important;
 }
 
 .editor-widget > .icon {

@@ -11,7 +11,7 @@ import transfer from 'array-transfer'
 import immer from 'immer'
 import { useState } from 'react'
 import cx from 'classnames'
-import { checkPropTypes } from 'prop-types';
+import log from './utils/log'
 
 let id = 0
 
@@ -29,62 +29,74 @@ interface WidgetOption {
 }
 
 interface WidgetChild {
-  id: number,
-  widget: WidgetData,
+  id: number
+  widget: WidgetData
   label: string
   options?: WidgetOption[]
 }
 
 interface State {
   sections: {
-    id: number,
-    label: string,
+    id: number
+    label: string
     children: WidgetChild[]
   }[]
   widgets: WidgetData[]
   drag: DragStart | null
 }
 
-const widgets = [{
-  id: ++id,
-  name: 'text',
-  label: 'Input',
-  icon: 'text-width'
-}, {
-  id: ++id,
-  name: 'number',
-  label: 'Number',
-  icon: 'hashtag'
-}, {
-  id: ++id,
-  name: 'date',
-  label: 'Date',
-  icon: 'calendar'
-}, {
-  id: ++id,
-  name: 'radio',
-  label: 'Single Choice',
-  icon: 'circle-o'
-}, {
-  id: ++id,
-  name: 'checkbox',
-  label: 'Multiple Choice',
-  icon: 'check-square'
-}]
+const widgets = [
+  {
+    id: ++id,
+    name: 'text',
+    label: 'Input',
+    icon: 'text-width'
+  },
+  {
+    id: ++id,
+    name: 'number',
+    label: 'Number',
+    icon: 'hashtag'
+  },
+  {
+    id: ++id,
+    name: 'date',
+    label: 'Date',
+    icon: 'calendar'
+  },
+  {
+    id: ++id,
+    name: 'radio',
+    label: 'Single Choice',
+    icon: 'circle-o'
+  },
+  {
+    id: ++id,
+    name: 'checkbox',
+    label: 'Multiple Choice',
+    icon: 'check-square'
+  }
+]
 
 const init: State = {
-  sections: [{
-    id: ++id,
-    label: 'Untitled',
-    children: [{
+  sections: [
+    {
       id: ++id,
-      widget: widgets[0],
-      label: 'Untitled'
-    }]
-  }],
+      label: 'Untitled',
+      children: [
+        {
+          id: ++id,
+          widget: widgets[0],
+          label: 'Untitled'
+        }
+      ]
+    }
+  ],
   widgets,
   drag: null
 }
+
+console.log(init)
 
 function App() {
   const [state, dispatch] = useState<State>(init)
@@ -131,9 +143,11 @@ function App() {
       })
     }
 
-
     // Reorder of the widgets within a section
-    else if (result.source.droppableId.startsWith('section-widget-list-') && result.source.droppableId === result.destination.droppableId) {
+    else if (
+      result.source.droppableId.startsWith('section-widget-list-') &&
+      result.source.droppableId === result.destination.droppableId
+    ) {
       // Number(result.source.droppableId.replace('section-widget-list-', ''))
       const src = {
         section: 0,
@@ -149,7 +163,10 @@ function App() {
     }
 
     // Transfer a widgets to another section
-    else if (result.source.droppableId.startsWith('section-widget-list-') && result.source.droppableId !== result.destination.droppableId) {
+    else if (
+      result.source.droppableId.startsWith('section-widget-list-') &&
+      result.source.droppableId !== result.destination.droppableId
+    ) {
       const src = {
         section: Number(result.source.droppableId.replace('section-widget-list-', '')),
         index: result.source.index
@@ -159,7 +176,12 @@ function App() {
         index: result.destination.index
       }
       setState(state => {
-        const transferred = transfer(state.sections[src.section].children, state.sections[dest.section].children, src.index, dest.index)
+        const transferred = transfer(
+          state.sections[src.section].children,
+          state.sections[dest.section].children,
+          src.index,
+          dest.index
+        )
         console.log(transferred)
         state.sections[src.section].children = transferred.source
         state.sections[dest.section].children = transferred.destination
@@ -217,26 +239,34 @@ function App() {
                 <h5 className="heading">Widgets</h5>
 
                 {state.widgets.map((widget, i) => (
-                  <Draggable draggableId={String(widget.id)} index={i} key={widget.id}>
+                  <Draggable draggableId={String(widget.id)} index={i} key={i}>
                     {(provided, snapshot) => (
                       <React.Fragment>
-                        <div className="editor-widget" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <div
+                          className="editor-widget"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}>
                           <span className="icon">
                             <i className={`fa fa-${widget.icon}`} />
                           </span>
 
-                          <span className="label">
-                            {widget.label}
-                          </span>
+                          <span className="label">{widget.label}</span>
                         </div>
 
-                        {provided.placeholder}
+                        {snapshot.isDragging && (
+                          <div className="editor-widget is-cloned">
+                            <span className="icon">
+                              <i className={`fa fa-${widget.icon}`} />
+                            </span>
+
+                            <span className="label">{widget.label}</span>
+                          </div>
+                        )}
                       </React.Fragment>
                     )}
                   </Draggable>
                 ))}
-
-                {provided.placeholder}
               </div>
             )}
           </Droppable>
@@ -261,7 +291,7 @@ function App() {
             <Droppable droppableId="sections" type="sections">
               {(provided, snapshot) => (
                 <div className="editor-content-list" ref={provided.innerRef} {...provided.droppableProps}>
-                  {state.sections.map((section, i) =>
+                  {state.sections.map((section, i) => (
                     <Draggable draggableId={String(section.id)} index={i} type="sections" key={section.id}>
                       {(provided, snapshot) => (
                         <div className="editor-section" ref={provided.innerRef} {...provided.draggableProps}>
@@ -271,9 +301,11 @@ function App() {
                             </div>
 
                             <div className="menu">
-                              {state.sections.length > 1 && <button type="button" className="action" onClick={() => handleDeleteSection(i)}>
-                                <i className="fa fa-trash" />
-                              </button>}
+                              {state.sections.length > 1 && (
+                                <button type="button" className="action" onClick={() => handleDeleteSection(i)}>
+                                  <i className="fa fa-trash" />
+                                </button>
+                              )}
 
                               <div className="action is-handle" {...provided.dragHandleProps}>
                                 <i className="fa fa-ellipsis-v" />
@@ -288,9 +320,12 @@ function App() {
                                   <Draggable draggableId={String(child.id)} index={j} key={child.id}>
                                     {(provided, snapshot) => (
                                       <React.Fragment>
-                                        <div className={cx('editor-section-widget', { 
-                                          'is-dragging': snapshot.isDragging
-                                        })} ref={provided.innerRef} {...provided.draggableProps}>
+                                        <div
+                                          className={cx('editor-section-widget', {
+                                            'is-dragging': snapshot.isDragging
+                                          })}
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}>
                                           <div className="label">
                                             <input type="text" className="ui-clear-input" defaultValue={child.label} />
 
@@ -299,9 +334,7 @@ function App() {
                                                 <i className={`fa fa-${child.widget.icon}`} />
                                               </span>
 
-                                              <span className="text">
-                                                {child.widget.label}
-                                              </span>
+                                              <span className="text">{child.widget.label}</span>
                                             </div>
                                           </div>
 
@@ -358,7 +391,7 @@ function App() {
                         </div>
                       )}
                     </Draggable>
-                  )}
+                  ))}
 
                   {provided.placeholder}
                 </div>
@@ -390,7 +423,7 @@ function ChildForm(props: ChildFormProps) {
           <i className="fa fa-calendar" />
         </div>
       </div>
-    )    
+    )
   }
 
   if (props.child.widget.name === 'radio') {
@@ -406,7 +439,7 @@ function ChildForm(props: ChildFormProps) {
           <input type="text" className="label" placeholder="Option" />
         </div>
       </div>
-    )    
+    )
   }
 
   if (props.child.widget.name === 'checkbox') {
@@ -422,14 +455,10 @@ function ChildForm(props: ChildFormProps) {
           <input type="text" className="label" placeholder="Option" />
         </div>
       </div>
-    )    
+    )
   }
 
-  return (
-    <div className="ui-input">
-      Short answer text
-    </div>
-  )
+  return <div className="ui-input">Short answer text</div>
 }
 
 ReactDOM.render(<App />, document.getElementById('mount'))
