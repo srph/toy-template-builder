@@ -1,3 +1,4 @@
+![preview](preview.png)
 # toy-template-builder
 An example drag-n-drop template builder built with React.
 
