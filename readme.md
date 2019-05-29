@@ -1,6 +1,8 @@
 # toy-template-builder
 An example drag-n-drop template builder built with React.
 
+[View demo](https://toy-template-builder.kierb.com/) / [View video](https://www.youtube.com/watch?v=y80z44WavAk&feature=youtu.be)
+
 ## Setup
 You will need npm `>=5` and Node.js `>=10`.
 
