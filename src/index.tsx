@@ -212,17 +212,18 @@ function App() {
     })
   }
 
-  function handleDuplicateChild(section: number, child: number) {
+  function handleDuplicateChild(evt: React.MouseEvent<HTMLButtonElement>, section: number, child: number) {
+    // Prevent the onClick on the parent from firing (which reassigns the selected stuff)
+    evt.stopPropagation()
+
     setState(state => {
       const original = state.sections[section].children[child]
 
-      const duplicated = {
+      state.sections[section].children.splice(child + 1, 0, {
         ...original,
         id: ++id,
         label: `Copy of ${original.label}`
-      }
-
-      state.sections[section].children.splice(child + 1, 0, duplicated)
+      })
 
       state.selected = id
     })
@@ -381,7 +382,7 @@ function App() {
                                               </div>
 
                                               <div className="section">
-                                                <button className="action" onClick={() => handleDuplicateChild(i, j)}>
+                                                <button className="action" onClick={(evt) => handleDuplicateChild(evt, i, j)}>
                                                   <i className="fa fa-file-o" />
                                                 </button>
                                               </div>
