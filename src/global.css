@@ -224,10 +224,40 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .editor-section > .heading {
+  display: flex;
+  align-items: center;
   padding: 24px 0;
   margin-left: 24px;
   margin-right: 24px;
   border-bottom: 1px solid var(--color-bw-3);
+}
+
+.editor-section > .heading > .title {
+  width: 50%;
+}
+
+.editor-section > .heading > .menu {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.editor-section > .heading > .menu > .action {
+  color: var(--color-bw-6);
+}
+
+.editor-section > .heading > .menu > button.action {
+  display: inline-block;
+  padding: 0;
+  font-size: inherit;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
+.editor-section > .heading > .menu > .action:not(:last-child) {
+  margin-right: 24px;
 }
 
 .editor-section > .content {  
@@ -239,6 +269,11 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .editor-section-widget {
   padding: 24px;
+  background: var(--color-bw-0);
+}
+
+.editor-section-widget.is-dragging {
+  border: 1px dashed var(--color-primary);
 }
 
 .editor-section-widget > .label {
@@ -264,4 +299,79 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .editor-section-widget > .label > .info > .text {
   font-size: var(--font-size-h6);
+}
+
+.editor-section-widget > .footer {
+  display: flex;
+}
+
+.editor-section-widget > .footer > .content {
+  display: Flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.editor-section-widget > .ui-input {
+  margin-bottom: 16px;
+}
+
+.editor-section-widget > .footer > .content > .section:not(:last-child) {
+  margin-right: 24px;
+}
+
+.editor-section-widget > .footer > .content > .section > .action {
+  font-size: var(--font-size);
+  color: var(--color-bw-6);
+}
+
+.editor-section-widget > .footer > .content > .section > button.action {
+  font-size: var(--font-size);
+  color: var(--color-bw-6);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.editor-section-widget > .footer > .content > .section > .group {
+  display: flex;
+  align-items: center;
+}
+
+.editor-section-widget > .footer > .content > .section > .group > .label {
+  color: var(--color-bw-6);
+  margin-right: 16px;
+}
+
+.ui-clear-input {
+  display: block;
+  width: 100%;
+  height: var(--font-size);
+  font-size: var(--font-size);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.ui-switch-toggle {
+  position: relative;
+}
+
+.ui-switch-toggle > .bar {
+  width: 32px;
+  height: 12px;
+  background: var(--color-bw-2);
+  border-radius: 6px;
+}
+
+.ui-switch-toggle > .control {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  height: 16px;
+  width: 16px;
+  background: var(--color-primary);
+  border-radius: 50%;
 }

@@ -10,7 +10,7 @@ import move from 'array-move'
 import transfer from 'array-transfer'
 import immer from 'immer'
 import { useState } from 'react'
-import { stat } from 'fs';
+import cx from 'classnames'
 
 let id = 0
 
@@ -230,9 +230,21 @@ function App() {
                   {state.sections.map((section, i) =>
                     <Draggable draggableId={String(section.id)} index={i} type="sections" key={section.id}>
                       {(provided, snapshot) => (
-                        <div className="editor-section" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <div className="editor-section" ref={provided.innerRef} {...provided.draggableProps}>
                           <div className="heading">
-                            Untitled
+                            <div className="title">
+                              <input type="text" defaultValue={section.label} className="ui-clear-input" />
+                            </div>
+
+                            <div className="menu">
+                              <button type="button" className="action">
+                                <i className="fa fa-trash" />
+                              </button>
+
+                              <div className="action is-handle" {...provided.dragHandleProps}>
+                                <i className="fa fa-ellipsis-v" />
+                              </div>
+                            </div>
                           </div>
 
                           <Droppable droppableId={`section-widget-list-${i}`}>
@@ -242,7 +254,9 @@ function App() {
                                   <Draggable draggableId={String(child.id)} index={j} key={child.id}>
                                     {(provided, snapshot) => (
                                       <React.Fragment>
-                                        <div className="editor-section-widget" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        <div className={cx('editor-section-widget', { 
+                                          'is-dragging': snapshot.isDragging
+                                        })} ref={provided.innerRef} {...provided.draggableProps}>
                                           <div className="label">
                                             <span className="text">{child.label}</span>
 
@@ -256,7 +270,41 @@ function App() {
                                               </span>
                                             </div>
                                           </div>
+
                                           <input type="text" className="ui-input" />
+
+                                          <div className="footer">
+                                            <div className="content">
+                                              <div className="section">
+                                                <button className="action">
+                                                  <i className="fa fa-trash" />
+                                                </button>
+                                              </div>
+
+                                              <div className="section">
+                                                <button className="action">
+                                                  <i className="fa fa-file-o" />
+                                                </button>
+                                              </div>
+
+                                              <div className="section">
+                                                <div className="group">
+                                                  <label className="label">Required</label>
+
+                                                  <div className="ui-switch-toggle">
+                                                    <div className="bar" />
+                                                    <div className="control" />
+                                                  </div>
+                                                </div>
+                                              </div>
+
+                                              <div className="section">
+                                                <div className="action" {...provided.dragHandleProps}>
+                                                  <i className="fa fa-ellipsis-v" />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
                                         </div>
 
                                         {provided.placeholder}
