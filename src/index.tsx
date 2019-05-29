@@ -268,7 +268,7 @@ function App() {
                                           'is-dragging': snapshot.isDragging
                                         })} ref={provided.innerRef} {...provided.draggableProps}>
                                           <div className="label">
-                                            <span className="text">{child.label}</span>
+                                            <input type="text" className="ui-clear-input" defaultValue={child.label} />
 
                                             <div className="info">
                                               <span className="icon">
@@ -281,7 +281,9 @@ function App() {
                                             </div>
                                           </div>
 
-                                          <ChildForm child={child} />
+                                          <div className="input">
+                                            <ChildForm child={child} />
+                                          </div>
 
                                           <div className="footer">
                                             <div className="content">
@@ -356,6 +358,17 @@ interface ChildFormProps {
 }
 
 function ChildForm(props: ChildFormProps) {
+  if (props.child.widget.name === 'date') {
+    return (
+      <div className="ui-input-group">
+        <div className="placeholder">Month, day, year</div>
+        <div className="icon">
+          <i className="fa fa-calendar" />
+        </div>
+      </div>
+    )    
+  }
+
   if (props.child.widget.name === 'radio') {
     return (
       <div>
@@ -389,7 +402,9 @@ function ChildForm(props: ChildFormProps) {
   }
 
   return (
-    <input type="text" className="ui-input" />
+    <div className="ui-input">
+      Short answer text
+    </div>
   )
 }
 

@@ -84,13 +84,17 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .ui-input {
-  display: block;
-  height: 40px;
-  padding: 0 12px;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  width: 50%;
+  color: var(--color-bw-4);
   background: var(--color-bw-0);
-  border: 1px solid var(--color-bw-3);
+  /* border: 1px solid var(--color-bw-3); */
+  border: 0;
+  border-bottom: 1px dashed var(--color-bw-3);
   border-radius: var(--border-radius);
+  outline: 0;
 }
 
 .editor-sidebar {
@@ -262,14 +266,18 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .editor-section > .content {  
   height: 100%;
-  min-height: 240px;
+  min-height: 180px;
   padding-top: 24px;
-  padding-bottom: 24px;
 }
 
 .editor-section-widget {
   padding: 24px;
   background: var(--color-bw-0);
+}
+
+.editor-section-widget:last-child {
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
 }
 
 .editor-section-widget.is-dragging {
@@ -288,6 +296,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .editor-section-widget > .label > .info {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   color: var(--color-bw-6);
@@ -303,16 +312,18 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .editor-section-widget > .footer {
   display: flex;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-bw-2);
 }
 
 .editor-section-widget > .footer > .content {
-  display: Flex;
+  display: flex;
   align-items: center;
   margin-left: auto;
 }
 
-.editor-section-widget > .ui-input {
-  margin-bottom: 16px;
+.editor-section-widget > .input {
+  margin-bottom: 32px;
 }
 
 .editor-section-widget > .footer > .content > .section:not(:last-child) {
@@ -419,4 +430,32 @@ p, h1, h2, h3, h4, h5, h6 {
 .ui-checkbox-group > .label:focus,
 .ui-checkbox-group > .label:hover {
   border-bottom-color: var(--color-bw-4);
+}
+
+.ui-input-group {
+  position: relative;
+  height: 40px;
+  background: var(--color-bw-0);
+  border: 0;
+  border-bottom: 1px dashed var(--color-bw-3);
+}
+
+.ui-input-group > .placeholder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  color: var(--color-bw-4);
+}
+
+.ui-input-group > .icon {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-bw-8);
+  border-radius: var(--border-radius);
 }
