@@ -9,7 +9,7 @@ import { Draggable, Droppable, DragDropContext, DropResult, DragStart } from 're
 import move from 'array-move'
 import transfer from 'array-transfer'
 import immer from 'immer'
-import useSetState from 'react-use/lib/useSetState'
+import useSetState from '~/lib/react-use/useSetState'
 import cx from 'classnames'
 
 let id = 0
@@ -101,7 +101,7 @@ function App() {
   const [state, internalSetState] = useSetState<State>(init)
 
   function setState(func) {
-    internalSetState(prev => immer(prev , func))
+    internalSetState(prev => immer(prev, func))
   }
 
   function onDragStart(result: DragStart) {
