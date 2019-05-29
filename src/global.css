@@ -327,7 +327,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .editor-section-widget > .footer > .content > .section:not(:last-child) {
-  margin-right: 24px;
+  margin-right: 32px;
 }
 
 .editor-section-widget > .footer > .content > .section > .action {
@@ -368,6 +368,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .ui-switch-toggle {
   position: relative;
+  cursor: pointer;
 }
 
 .ui-switch-toggle > .bar {
