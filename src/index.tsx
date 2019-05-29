@@ -286,11 +286,11 @@ function App() {
             <span className="name">Kier Borromeo</span>
 
             <div className="social">
-              <a href="#" className="icon">
+              <a href="https://github.com/srph/toy-template-builder" target="_blank" className="icon">
                 <i className="fa fa-github" />
               </a>
 
-              <a href="#" className="icon">
+              <a href="https://twitter.com/_srph" target="_blank" className="icon">
                 <i className="fa fa-twitter" />
               </a>
             </div>
