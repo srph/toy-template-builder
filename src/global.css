@@ -237,6 +237,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .editor-section {
+  position: relative;
   margin-bottom: 60px;
   background: var(--color-bw-0);
   border: 1px solid var(--color-bw-3);
@@ -245,10 +246,25 @@ p, h1, h2, h3, h4, h5, h6 {
   transition: 200ms all ease;
 }
 
+.editor-section > .count {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 4px 24px;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-bw-0);
+  background: var(--color-primary);
+  border-top-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
 .editor-section > .heading {
   display: flex;
   align-items: center;
   padding: 24px 0;
+  padding-top: 40px;
   margin-left: 24px;
   margin-right: 24px;
   border-bottom: 1px solid var(--color-bw-3);

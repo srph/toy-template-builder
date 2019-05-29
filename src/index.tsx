@@ -307,6 +307,9 @@ function App() {
                         <div className={cx('editor-section', {
                           'is-dragging': snapshot.isDragging
                         })} ref={provided.innerRef} {...provided.draggableProps}>
+                          <div className="count">
+                            Section {i + 1} of {state.sections.length}
+                          </div>
                           <div className="heading">
                             <div className="title">
                               <input type="text" defaultValue={section.label} className="ui-clear-input" />
