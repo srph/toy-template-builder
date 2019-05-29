@@ -82,12 +82,12 @@ const init: State = {
   sections: [
     {
       id: ++id,
-      label: 'Untitled',
+      label: `Section 1`,
       children: [
         {
           id: ++id,
           widget: widgets[0],
-          label: 'Untitled'
+          label: `Label 1`
         }
       ]
     }
