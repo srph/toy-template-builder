@@ -297,6 +297,14 @@ function App() {
         </div>
 
         <div className="editor-layout">
+          <div className="editor-cover">
+            <div className="container">
+              <div className="text">
+                <input type="text" className="ui-clear-input is-h1" defaultValue="Easy Padala 2019" />
+              </div>
+            </div>
+          </div>
+
           <div className="editor-content">
             <Droppable droppableId="sections" type="sections">
               {(provided, snapshot) => (

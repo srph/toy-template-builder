@@ -203,12 +203,36 @@ p, h1, h2, h3, h4, h5, h6 {
  */
 .editor-layout {
   height: 100vh;
+  margin-left: 360px;
   overflow-y: scroll;
 }
 
+.editor-cover {
+  height: 180px;
+  background: var(--color-primary);
+}
+
+.editor-cover > .container {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  margin: 0 auto;
+  padding-bottom: 56px;
+  width: 720px;
+}
+
+.editor-cover > .container > .text {
+  width: 100%;
+  color: var(--color-bw-0);
+  opacity: 0.75;
+  font-weight: 300;
+}
+
 .editor-content {
+  position: relative;
   width: 720px;
   margin: 0 auto;
+  margin-top: -40px;
 }
 
 .editor-content > .new {
@@ -232,7 +256,6 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .editor-content-list {
-  padding-top: 60px;
   padding-bottom: 60px;
 }
 
@@ -417,10 +440,17 @@ p, h1, h2, h3, h4, h5, h6 {
   width: 100%;
   height: var(--font-size);
   font-size: var(--font-size);
+  color: inherit;
   padding: 0;
   background: transparent;
   border: 0;
   outline: 0;
+}
+
+.ui-clear-input.is-h1 {
+  height: var(--font-size-h1);
+  font-weight: 300;
+  font-size: var(--font-size-h1);
 }
 
 .ui-switch-toggle {
