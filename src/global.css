@@ -510,6 +510,7 @@ p, h1, h2, h3, h4, h5, h6 {
   padding-top: 2px;
   padding-bottom: 8px;
   color: var(--color-bw-7);
+  background: transparent;
   border: 0;
   border-bottom: 1px dashed transparent;
   outline: 0;
