@@ -12,7 +12,7 @@
     "array-transfer": "^0.1.1",
     "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
-    "immer": "^3.1.2",
+    "immer": "^8.0.1",
     "react": "^16.8.6",
     "react-beautiful-dnd": "^11.0.3",
     "react-dnd": "^7.4.5",
